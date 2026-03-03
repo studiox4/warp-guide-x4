@@ -1,0 +1,873 @@
+---
+import Base from "../layouts/Base.astro";
+import Section from "../components/Section.astro";
+import CodeBlock from "../components/CodeBlock.astro";
+import Checklist from "../components/Checklist.astro";
+import TipBox from "../components/TipBox.astro";
+
+const sections = [
+  { num: "01", title: "Installation & First Launch", badge: "essential" as const, id: "installation" },
+  { num: "02", title: "Appearance & Themes", badge: "power" as const, id: "appearance" },
+  { num: "03", title: "Shell Configuration (Zsh + Oh My Zsh)", badge: "essential" as const, id: "shell" },
+  { num: "04", title: "Core Dev Toolchain", badge: "essential" as const, id: "toolchain" },
+  { num: "05", title: "Claude Code Integration", badge: "workflow" as const, id: "claude" },
+  { num: "06", title: "Warp-Specific Shortcuts & Features", badge: "power" as const, id: "shortcuts" },
+  { num: "07", title: "Power Workflows & Final Setup", badge: "advanced" as const, id: "workflows" },
+];
+---
+
+<Base title="Warp Setup Guide — macOS">
+  <!-- Header -->
+  <header class="site-header">
+    <span class="header-label">// Terminal Setup &middot; 2026</span>
+    <h1 class="header-title">Configure <span class="accent">Warp</span> Like a Pro</h1>
+    <p class="header-subtitle">
+      A hands-on macOS guide — from install to advanced workflows
+    </p>
+    <div class="progress-wrap">
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+      </div>
+      <span class="progress-label" id="progress-label">0 / 7 complete</span>
+    </div>
+  </header>
+
+  <!-- Main layout -->
+  <div class="layout">
+    <!-- Sidebar nav -->
+    <nav class="sidebar" aria-label="Sections">
+      <ul class="nav-list">
+        {sections.map((s) => (
+          <li class="nav-item">
+            <a href={`#${s.id}`} class="nav-link" data-nav-link={s.id}>
+              <span class="nav-check" data-nav-check={s.id} aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <path class="nav-check-mark" d="M2 5l2 2 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <span class="nav-text">{s.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- Content -->
+    <main class="content">
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- Section 01 — Installation & First Launch   -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="section-wrapper" style="animation-delay: 0ms">
+        <Section num="01" title="Installation & First Launch" badge="essential" id="installation">
+          <p>
+            Warp is a modern, GPU-accelerated terminal built in Rust. It's free for individual use
+            and the fastest way to level up your command-line workflow on macOS.
+          </p>
+
+          <h3>Install via Homebrew</h3>
+          <CodeBlock lang="bash">brew install --cask warp</CodeBlock>
+
+          <h3>Or download directly</h3>
+          <TipBox>
+            <p>
+              Grab the latest version from <strong>warp.dev/download</strong> — drag to Applications and launch.
+            </p>
+          </TipBox>
+
+          <h3>First launch checklist</h3>
+          <Checklist items={[
+            "Sign in with GitHub (or email) to activate your account",
+            "Grant Accessibility & Full Disk Access when prompted",
+            "Set Warp as your default terminal (Warp → Settings → Default Terminal)",
+            "Browse Preferences with ⌘ , to explore the settings"
+          ]} />
+        </Section>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- Section 02 — Appearance & Themes           -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="section-wrapper" style="animation-delay: 50ms">
+        <Section num="02" title="Appearance & Themes" badge="power" id="appearance">
+          <p>
+            Warp's GPU-accelerated renderer means buttery-smooth scrolling and crisp text at any size.
+            Dial in the look before you start configuring the shell underneath.
+          </p>
+
+          <h3>Recommended settings</h3>
+          <Checklist items={[
+            "Font → JetBrains Mono Nerd Font, 13px (installed below)",
+            "Theme → Dracula, Tokyo Night, or your pick from the gallery",
+            "Compact Mode → On (Settings → Appearance → Compact Mode)",
+            "Window Opacity → 95% for a subtle transparency effect",
+            "Prompt → PS1 or Starship (configured in Section 03)"
+          ]} />
+
+          <h3>Install a Nerd Font</h3>
+          <p>Nerd Fonts patch in thousands of icons used by CLI tools like <code>eza</code>, Starship, and Powerlevel10k.</p>
+          <CodeBlock lang="bash">{`brew tap homebrew/cask-fonts
+brew install --cask font-jetbrains-mono-nerd-font`}</CodeBlock>
+
+          <TipBox>
+            <p>
+              Browse 50+ community themes at <strong>warp.dev/themes</strong> — you can preview and apply them instantly.
+            </p>
+          </TipBox>
+        </Section>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- Section 03 — Shell Configuration           -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="section-wrapper" style="animation-delay: 100ms">
+        <Section num="03" title="Shell Configuration (Zsh + Oh My Zsh)" badge="essential" id="shell">
+          <p>
+            macOS ships with Zsh as the default shell. Oh My Zsh layers on a plugin system, themes,
+            and sensible defaults that make your shell dramatically more productive.
+          </p>
+
+          <h3>Install Oh My Zsh</h3>
+          <CodeBlock lang="bash">sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"</CodeBlock>
+
+          <h3>Essential plugins</h3>
+          <p>Add <code>zsh-autosuggestions</code> and <code>zsh-syntax-highlighting</code> — two plugins that will change the way you type commands.</p>
+          <CodeBlock lang="bash">{`# Clone the plugins into Oh My Zsh's custom directory
+git clone https://github.com/zsh-users/zsh-autosuggestions \${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+git clone https://github.com/zsh-users/zsh-syntax-highlighting \${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting`}</CodeBlock>
+
+          <p>Then update the plugins line in your <code>~/.zshrc</code>:</p>
+          <CodeBlock lang="bash">plugins=(git zsh-autosuggestions zsh-syntax-highlighting)</CodeBlock>
+
+          <h3>Key ~/.zshrc additions</h3>
+          <CodeBlock lang="bash">{`# History
+HISTSIZE=10000
+SAVEHIST=10000
+setopt SHARE_HISTORY
+
+# Navigation
+setopt AUTO_CD
+setopt AUTO_PUSHD
+
+# Aliases
+alias ll="ls -la"
+alias gs="git status"
+alias gp="git pull"
+alias gc="git commit"
+alias ..="cd .."
+alias ...="cd ../.."
+
+# Reload config
+alias reload="source ~/.zshrc"`}</CodeBlock>
+
+          <TipBox>
+            <p>
+              After editing <code>~/.zshrc</code>, run <code>source ~/.zshrc</code> or open a new tab to apply changes.
+            </p>
+          </TipBox>
+
+          <h3>Shell setup checklist</h3>
+          <Checklist items={[
+            "Oh My Zsh installed and running",
+            "zsh-autosuggestions and zsh-syntax-highlighting active",
+            "Aliases added to ~/.zshrc",
+            "Run source ~/.zshrc to reload"
+          ]} />
+        </Section>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- Section 04 — Core Dev Toolchain            -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="section-wrapper" style="animation-delay: 150ms">
+        <Section num="04" title="Core Dev Toolchain" badge="essential" id="toolchain">
+          <p>
+            Your local dev stack — version managers, CLI tools, and Git config. Run these in Warp
+            and you'll have a fully equipped development environment in minutes.
+          </p>
+
+          <h3>Install everything at once</h3>
+          <CodeBlock lang="bash">{`# Node.js via nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+nvm install --lts
+nvm alias default node
+
+# Python via pyenv
+brew install pyenv
+echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+pyenv install 3.12
+pyenv global 3.12
+
+# GitHub CLI
+brew install gh
+gh auth login
+
+# Useful CLI tools
+brew install eza bat fd ripgrep jq`}</CodeBlock>
+
+          <h3>Level up your ls and cat</h3>
+          <p>Replace the defaults with modern alternatives that have color, icons, and Git integration.</p>
+          <CodeBlock lang="bash">{`# Add to ~/.zshrc
+alias ls="eza --icons --group-directories-first"
+alias ll="eza -la --icons --group-directories-first --git"
+alias cat="bat --theme=Dracula"
+alias find="fd"`}</CodeBlock>
+
+          <TipBox>
+            <p>
+              <strong>eza</strong> shows file icons when you have a Nerd Font installed (Section 02).
+              <strong>bat</strong> adds syntax highlighting to file previews.
+            </p>
+          </TipBox>
+
+          <h3>Configure Git globally</h3>
+          <CodeBlock lang="bash">{`git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+git config --global init.defaultBranch main
+git config --global pull.rebase true
+
+# Generate SSH key (if you don't have one)
+ssh-keygen -t ed25519 -C "you@example.com"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+
+# Copy public key to clipboard — paste into GitHub → Settings → SSH Keys
+pbcopy < ~/.ssh/id_ed25519.pub`}</CodeBlock>
+
+          <h3>Toolchain checklist</h3>
+          <Checklist items={[
+            "Node.js installed via nvm (check: node --version)",
+            "Python installed via pyenv (check: python --version)",
+            "GitHub CLI authenticated (check: gh auth status)",
+            "SSH key generated and added to GitHub",
+            "Modern CLI tools installed (eza, bat, fd, ripgrep, jq)"
+          ]} />
+        </Section>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- Section 05 — Claude Code Integration       -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="section-wrapper" style="animation-delay: 200ms">
+        <Section num="05" title="Claude Code Integration" badge="workflow" id="claude">
+          <p>
+            Claude Code is an agentic coding tool that lives in your terminal. It reads your codebase,
+            edits files, runs commands, and works as a first-class citizen alongside Warp's block-based UI.
+          </p>
+
+          <h3>Install Claude Code</h3>
+          <CodeBlock lang="bash">{`# Install globally
+npm install -g @anthropic-ai/claude-code
+
+# Verify installation
+claude --version
+
+# Authenticate (opens browser)
+claude auth`}</CodeBlock>
+
+          <h3>Useful aliases</h3>
+          <p>Add these to your <code>~/.zshrc</code> for faster access:</p>
+          <CodeBlock lang="bash">{`# Add to ~/.zshrc
+alias cc="claude"
+alias ccr="claude 'review this code for bugs and improvements'"
+alias ccfix="claude 'fix the failing tests'"
+alias cctest="claude 'write tests for the recent changes'"
+alias ccdoc="claude 'add documentation to the undocumented functions'"`}</CodeBlock>
+
+          <h3>CLAUDE.md — project memory</h3>
+          <p>
+            Create a <code>CLAUDE.md</code> file in your project root. Claude Code reads this
+            automatically to understand your project's conventions, architecture, and commands.
+          </p>
+          <CodeBlock lang="markdown">{`# CLAUDE.md
+
+## Project
+Brief description of your project.
+
+## Commands
+\`\`\`bash
+npm run dev       # Start dev server
+npm run build     # Production build
+npm test          # Run tests
+\`\`\`
+
+## Architecture
+- Framework and key tech decisions
+- Important file paths
+- Conventions to follow`}</CodeBlock>
+
+          <h3>Warp + Claude Code power moves</h3>
+          <TipBox>
+            <p>
+              <strong>Blocks:</strong> Warp's block-based output means Claude Code's work is neatly
+              isolated — you can collapse, copy, or share individual command blocks without scrollback noise.
+            </p>
+          </TipBox>
+          <TipBox>
+            <p>
+              <strong>Warp Drive:</strong> Pin your Claude Code sessions as shareable runbooks with
+              <kbd>Cmd</kbd> + <kbd>W</kbd>. Great for onboarding teammates to your AI workflow.
+            </p>
+          </TipBox>
+
+          <h3>Claude Code checklist</h3>
+          <Checklist items={[
+            "Claude Code installed globally (check: claude --version)",
+            "Aliases added to ~/.zshrc",
+            "CLAUDE.md created in your main project",
+            "Run a test session: claude 'explain the project structure'"
+          ]} />
+        </Section>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- Section 06 — Warp-Specific Shortcuts        -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="section-wrapper" style="animation-delay: 250ms">
+        <Section num="06" title="Warp-Specific Shortcuts & Features" badge="power" id="shortcuts">
+          <p>
+            Warp isn't just a pretty terminal — it has unique features like command blocks, AI assistance,
+            and Warp Drive that no other terminal offers. Learn the shortcuts and you'll fly.
+          </p>
+
+          <h3>Navigation shortcuts</h3>
+          <table class="shortcut-table">
+            <thead>
+              <tr><th>Action</th><th>Shortcut</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>New tab</td><td><kbd>Cmd</kbd> + <kbd>T</kbd></td></tr>
+              <tr><td>Close tab</td><td><kbd>Cmd</kbd> + <kbd>W</kbd></td></tr>
+              <tr><td>Split pane right</td><td><kbd>Cmd</kbd> + <kbd>D</kbd></td></tr>
+              <tr><td>Split pane down</td><td><kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>D</kbd></td></tr>
+              <tr><td>Navigate panes</td><td><kbd>Cmd</kbd> + <kbd>Option</kbd> + <kbd>Arrow</kbd></td></tr>
+              <tr><td>Command palette</td><td><kbd>Cmd</kbd> + <kbd>P</kbd></td></tr>
+              <tr><td>Settings</td><td><kbd>Cmd</kbd> + <kbd>,</kbd></td></tr>
+            </tbody>
+          </table>
+
+          <h3>Block navigation</h3>
+          <table class="shortcut-table">
+            <thead>
+              <tr><th>Action</th><th>Shortcut</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Select block</td><td><kbd>Cmd</kbd> + <kbd>Up</kbd></td></tr>
+              <tr><td>Copy block output</td><td><kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd></td></tr>
+              <tr><td>Share block</td><td><kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd></td></tr>
+              <tr><td>Collapse block</td><td>Click the block header</td></tr>
+            </tbody>
+          </table>
+
+          <h3>AI features</h3>
+          <table class="shortcut-table">
+            <thead>
+              <tr><th>Action</th><th>Shortcut</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Warp AI (natural language → command)</td><td><kbd>Ctrl</kbd> + <kbd>Space</kbd></td></tr>
+              <tr><td>Explain error</td><td>Click the error hint icon</td></tr>
+              <tr><td>Suggested commands</td><td>Start typing and review inline suggestions</td></tr>
+            </tbody>
+          </table>
+
+          <TipBox>
+            <p>
+              <strong>Warp Drive</strong> (<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>W</kbd>) lets you save and share
+              workflows, commands, and environment configs with your team. Think of it as bookmarks for terminal sessions.
+            </p>
+          </TipBox>
+
+          <h3>Shortcuts checklist</h3>
+          <Checklist items={[
+            "Try split panes — run a server in one, tests in another",
+            "Use Warp AI to convert a natural language request into a command",
+            "Save a workflow to Warp Drive as a team runbook"
+          ]} />
+        </Section>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- Section 07 — Power Workflows & Final Setup -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="section-wrapper" style="animation-delay: 300ms">
+        <Section num="07" title="Power Workflows & Final Setup" badge="advanced" id="workflows">
+          <p>
+            The difference between a fast terminal and a great one is the workflows you build on top.
+            These scripts and tools will save you hours every week.
+          </p>
+
+          <h3>fzf — fuzzy find everything</h3>
+          <p>
+            <code>fzf</code> is a general-purpose fuzzy finder. It plugs into file search, command history,
+            Git branches, and anything else you can pipe into it.
+          </p>
+          <CodeBlock lang="bash">{`brew install fzf
+
+# Add to ~/.zshrc
+source <(fzf --zsh)
+
+# Key bindings (add to ~/.zshrc)
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"`}</CodeBlock>
+
+          <h3>Project switcher function</h3>
+          <p>Jump to any project directory with fuzzy matching:</p>
+          <CodeBlock lang="bash">{`# Add to ~/.zshrc
+p() {
+  local dir
+  dir=$(find ~/Development -maxdepth 2 -type d | fzf --preview 'eza -la --icons {}')
+  if [[ -n "$dir" ]]; then
+    cd "$dir"
+  fi
+}`}</CodeBlock>
+
+          <h3>Session startup script</h3>
+          <p>Create a script that boots your full dev environment in one command:</p>
+          <CodeBlock lang="bash">{`#!/bin/bash
+# ~/bin/dev-start.sh — launch your dev environment
+
+PROJECT=\${1:-$(basename $PWD)}
+
+echo "Starting dev environment for $PROJECT..."
+
+# Open in Warp split panes
+warp-cli split-pane --direction right
+warp-cli send-text --pane 1 "npm run dev"
+warp-cli send-text --pane 2 "npm run test -- --watch"
+
+echo "Dev environment ready."`}</CodeBlock>
+
+          <h3>Environment & secrets management</h3>
+          <p>Use <code>direnv</code> to auto-load environment variables per project — no more manual <code>source .env</code>:</p>
+          <CodeBlock lang="bash">{`brew install direnv
+
+# Add to ~/.zshrc
+eval "$(direnv hook zsh)"
+
+# In your project directory
+echo 'export DATABASE_URL="postgres://..."' > .envrc
+direnv allow`}</CodeBlock>
+
+          <TipBox variant="warning">
+            <p>
+              <strong>Back up your ~/.zshrc</strong> before making changes. A simple
+              <code>cp ~/.zshrc ~/.zshrc.backup</code> can save you from a broken shell config.
+            </p>
+          </TipBox>
+
+          <h3>Final power checklist</h3>
+          <Checklist items={[
+            "fzf installed and shell integration active (Ctrl+R for history, Ctrl+T for files)",
+            "Project switcher function added to ~/.zshrc",
+            "dev-start.sh script created and made executable (chmod +x)",
+            "direnv installed and hooked into Zsh",
+            "Back up your ~/.zshrc — you've earned it"
+          ]} />
+        </Section>
+      </div>
+
+    </main>
+  </div>
+</Base>
+
+<style>
+  /* ── Header ───────────────────────────────────── */
+  .site-header {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 4rem 2rem 2rem;
+    text-align: center;
+  }
+
+  .header-label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .header-title {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .header-title .accent {
+    color: var(--accent);
+  }
+
+  .header-subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 32px;
+  }
+
+  .progress-wrap {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .progress-track {
+    height: 2px;
+    background: var(--surface2);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 1px;
+    transition: width 400ms ease;
+  }
+
+  .progress-label {
+    display: block;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 8px;
+    text-align: right;
+  }
+
+  /* ── Layout grid ──────────────────────────────── */
+  .layout {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+  }
+
+  /* ── Sidebar nav ──────────────────────────────── */
+  .sidebar {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+  }
+
+  .nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.4;
+    text-decoration: none;
+    transition:
+      color var(--transition),
+      background var(--transition);
+  }
+
+  .nav-link:hover {
+    color: var(--text);
+    background: var(--surface);
+    text-decoration: none;
+  }
+
+  .nav-link.active {
+    color: var(--accent);
+  }
+
+  .nav-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: transparent;
+    transition:
+      border-color var(--transition),
+      background var(--transition),
+      color var(--transition);
+  }
+
+  .nav-check-mark {
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
+
+  .nav-check.completed {
+    border-color: var(--green);
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--green);
+  }
+
+  .nav-check.completed .nav-check-mark {
+    opacity: 1;
+  }
+
+  /* ── Content area ─────────────────────────────── */
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+  }
+
+  .content h3 {
+    font-size: 14px;
+    color: var(--text);
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+
+  .content h3:first-child {
+    margin-top: 0;
+  }
+
+  .content p {
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+
+  .content p code {
+    background: var(--surface2);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+  }
+
+  .section-wrapper {
+    animation: fadeIn 400ms ease both;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .placeholder {
+    color: var(--muted);
+    font-style: italic;
+    font-size: 13px;
+  }
+
+  /* ── Completed section styling ─────────────────── */
+  :global(.mark-complete-btn.completed) {
+    color: var(--green);
+    border-color: var(--green);
+    background: rgba(34, 197, 94, 0.08);
+  }
+
+  /* ── Responsive ───────────────────────────────── */
+  @media (max-width: 700px) {
+    .site-header {
+      padding: 2.5rem 1rem 1.5rem;
+    }
+
+    .header-title {
+      font-size: 2rem;
+    }
+
+    .header-subtitle {
+      margin-bottom: 20px;
+    }
+
+    .layout {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding: 1rem 1rem 3rem;
+    }
+
+    .sidebar {
+      display: none;
+    }
+
+    .content h3 {
+      font-size: 13px;
+    }
+
+    .content p {
+      font-size: 12px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .site-header {
+      padding: 2rem 0.75rem 1rem;
+    }
+
+    .header-title {
+      font-size: 1.6rem;
+    }
+
+    .layout {
+      padding: 0.75rem 0.75rem 2rem;
+    }
+  }
+</style>
+
+<script>
+  // ── State ──────────────────────────────────────
+  const sectionIds = [
+    "installation", "appearance", "shell", "toolchain",
+    "claude", "shortcuts", "workflows"
+  ];
+  const done = new Array(7).fill(false);
+
+  // ── DOM references ─────────────────────────────
+  const progressFill = document.getElementById("progress-fill");
+  const progressLabel = document.getElementById("progress-label");
+
+  // ── 6.1 Section Toggle ─────────────────────────
+  document.querySelectorAll(".section-header").forEach((header) => {
+    header.addEventListener("click", () => {
+      const expanded = header.getAttribute("aria-expanded") === "true";
+      header.setAttribute("aria-expanded", String(!expanded));
+      const bodyId = header.getAttribute("aria-controls");
+      if (bodyId) {
+        const body = document.getElementById(bodyId);
+        if (body) body.hidden = expanded;
+      }
+    });
+  });
+
+  // ── 6.2 Checklist Toggle ───────────────────────
+  document.querySelectorAll("[data-checklist-item]").forEach((item) => {
+    item.addEventListener("click", () => {
+      item.classList.toggle("checked");
+    });
+  });
+
+  // ── 6.3 Mark Complete ──────────────────────────
+  document.querySelectorAll("[data-complete-btn]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const section = btn.closest("[data-section]") as HTMLElement | null;
+      if (!section) return;
+      const id = section.id;
+      const idx = sectionIds.indexOf(id);
+      if (idx === -1) return;
+
+      done[idx] = !done[idx];
+
+      // Update button
+      if (done[idx]) {
+        btn.classList.add("completed");
+        btn.textContent = "\u2713 Completed";
+      } else {
+        btn.classList.remove("completed");
+        btn.textContent = "Mark complete";
+      }
+
+      // Update nav indicator
+      const navCheck = document.querySelector(`[data-nav-check="${id}"]`);
+      if (navCheck) {
+        navCheck.classList.toggle("completed", done[idx]);
+      }
+
+      updateProgress();
+    });
+  });
+
+  // ── 6.4 Progress Bar ──────────────────────────
+  function updateProgress() {
+    const count = done.filter(Boolean).length;
+    const pct = Math.round((count / 7) * 100);
+    if (progressFill) progressFill.style.width = `${pct}%`;
+    if (progressLabel) progressLabel.textContent = `${count} / 7 complete`;
+  }
+
+  // ── 6.5 Nav Sidebar ────────────────────────────
+  document.querySelectorAll("[data-nav-link]").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const id = (link as HTMLElement).dataset.navLink;
+      if (!id) return;
+
+      const section = document.getElementById(id);
+      if (!section) return;
+
+      // Open section if closed
+      const header = section.querySelector(".section-header");
+      if (header && header.getAttribute("aria-expanded") !== "true") {
+        header.setAttribute("aria-expanded", "true");
+        const bodyId = header.getAttribute("aria-controls");
+        if (bodyId) {
+          const body = document.getElementById(bodyId);
+          if (body) body.hidden = false;
+        }
+      }
+
+      // Smooth scroll
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  // ── 6.6 Copy Code ─────────────────────────────
+  document.querySelectorAll("[data-copy-btn]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const block = btn.closest(".code-block");
+      if (!block) return;
+
+      const code = block.querySelector("pre")?.textContent || "";
+      try {
+        await navigator.clipboard.writeText(code);
+        const label = btn.querySelector(".copy-label");
+        if (label) {
+          btn.classList.add("copied");
+          label.textContent = "Copied!";
+          setTimeout(() => {
+            btn.classList.remove("copied");
+            label.textContent = "Copy";
+          }, 1500);
+        }
+      } catch {
+        // Clipboard API may fail in some contexts — silently ignore
+      }
+    });
+  });
+
+  // ── 6.7 IntersectionObserver for Active Nav ────
+  const navLinks = document.querySelectorAll("[data-nav-link]");
+
+  function setActiveNav(id: string) {
+    navLinks.forEach((link) => {
+      const linkId = (link as HTMLElement).dataset.navLink;
+      link.classList.toggle("active", linkId === id);
+    });
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          setActiveNav(entry.target.id);
+        }
+      }
+    },
+    { rootMargin: "-10% 0px -80% 0px" }
+  );
+
+  document.querySelectorAll("[data-section]").forEach((section) => {
+    observer.observe(section);
+  });
+</script>
