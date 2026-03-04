@@ -1,9 +1,13 @@
 ---
+import { Code } from "astro:components";
+import { warpGuideTheme } from "../themes/warp-guide-theme";
+
 interface Props {
   lang?: string;
+  code: string;
 }
 
-const { lang } = Astro.props;
+const { lang = "bash", code } = Astro.props;
 ---
 
 <div class="code-block">
@@ -15,7 +19,7 @@ const { lang } = Astro.props;
     </svg>
     <span class="copy-label">Copy</span>
   </button>
-  <pre><code><slot /></code></pre>
+  <Code code={code} lang={lang} theme={warpGuideTheme} />
 </div>
 
 <style>
@@ -74,23 +78,24 @@ const { lang } = Astro.props;
     border-color: var(--green);
   }
 
-  pre {
+  :global(.code-block pre) {
     margin: 0;
     padding: 32px 16px 16px;
     overflow-x: auto;
     font-family: var(--font-body);
     font-size: 13px;
     line-height: 1.6;
-    color: var(--text);
+    background: transparent !important;
   }
 
-  code {
+  :global(.code-block code) {
     font-family: inherit;
     font-size: inherit;
+    background: transparent !important;
   }
 
   @media (max-width: 700px) {
-    pre {
+    :global(.code-block pre) {
       padding: 28px 12px 12px;
       font-size: 12px;
     }
