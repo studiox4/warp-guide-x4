@@ -13,6 +13,7 @@ const sections = [
   { num: "05", title: "Claude Code Integration", badge: "workflow" as const, id: "claude" },
   { num: "06", title: "Warp-Specific Shortcuts & Features", badge: "power" as const, id: "shortcuts" },
   { num: "07", title: "Power Workflows & Final Setup", badge: "advanced" as const, id: "workflows" },
+  { num: "08", title: "TypeScript Developer Workflows", badge: "advanced" as const, id: "ts-workflows" },
 ];
 ---
 
@@ -28,7 +29,7 @@ const sections = [
       <div class="progress-track">
         <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
       </div>
-      <span class="progress-label" id="progress-label">0 / 7 complete</span>
+      <span class="progress-label" id="progress-label">0 / 8 complete</span>
     </div>
   </header>
 
@@ -66,7 +67,7 @@ const sections = [
           </p>
 
           <h3>Install via Homebrew</h3>
-          <CodeBlock lang="bash">brew install --cask warp</CodeBlock>
+          <CodeBlock lang="bash" code="brew install --cask warp" />
 
           <h3>Or download directly</h3>
           <TipBox>
@@ -106,8 +107,8 @@ const sections = [
 
           <h3>Install a Nerd Font</h3>
           <p>Nerd Fonts patch in thousands of icons used by CLI tools like <code>eza</code>, Starship, and Powerlevel10k.</p>
-          <CodeBlock lang="bash">{`brew tap homebrew/cask-fonts
-brew install --cask font-jetbrains-mono-nerd-font`}</CodeBlock>
+          <CodeBlock lang="bash" code={`brew tap homebrew/cask-fonts
+brew install --cask font-jetbrains-mono-nerd-font`} />
 
           <TipBox>
             <p>
@@ -128,20 +129,20 @@ brew install --cask font-jetbrains-mono-nerd-font`}</CodeBlock>
           </p>
 
           <h3>Install Oh My Zsh</h3>
-          <CodeBlock lang="bash">sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"</CodeBlock>
+          <CodeBlock lang="bash" code={`sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`} />
 
           <h3>Essential plugins</h3>
           <p>Add <code>zsh-autosuggestions</code> and <code>zsh-syntax-highlighting</code> — two plugins that will change the way you type commands.</p>
-          <CodeBlock lang="bash">{`# Clone the plugins into Oh My Zsh's custom directory
+          <CodeBlock lang="bash" code={`# Clone the plugins into Oh My Zsh's custom directory
 git clone https://github.com/zsh-users/zsh-autosuggestions \${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
-git clone https://github.com/zsh-users/zsh-syntax-highlighting \${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting`}</CodeBlock>
+git clone https://github.com/zsh-users/zsh-syntax-highlighting \${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting`} />
 
           <p>Then update the plugins line in your <code>~/.zshrc</code>:</p>
-          <CodeBlock lang="bash">plugins=(git zsh-autosuggestions zsh-syntax-highlighting)</CodeBlock>
+          <CodeBlock lang="bash" code="plugins=(git zsh-autosuggestions zsh-syntax-highlighting)" />
 
           <h3>Key ~/.zshrc additions</h3>
-          <CodeBlock lang="bash">{`# History
+          <CodeBlock lang="bash" code={`# History
 HISTSIZE=10000
 SAVEHIST=10000
 setopt SHARE_HISTORY
@@ -159,7 +160,7 @@ alias ..="cd .."
 alias ...="cd ../.."
 
 # Reload config
-alias reload="source ~/.zshrc"`}</CodeBlock>
+alias reload="source ~/.zshrc"`} />
 
           <TipBox>
             <p>
@@ -188,7 +189,7 @@ alias reload="source ~/.zshrc"`}</CodeBlock>
           </p>
 
           <h3>Install everything at once</h3>
-          <CodeBlock lang="bash">{`# Node.js via nvm
+          <CodeBlock lang="bash" code={`# Node.js via nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 nvm install --lts
 nvm alias default node
@@ -204,15 +205,15 @@ brew install gh
 gh auth login
 
 # Useful CLI tools
-brew install eza bat fd ripgrep jq`}</CodeBlock>
+brew install eza bat fd ripgrep jq`} />
 
           <h3>Level up your ls and cat</h3>
           <p>Replace the defaults with modern alternatives that have color, icons, and Git integration.</p>
-          <CodeBlock lang="bash">{`# Add to ~/.zshrc
+          <CodeBlock lang="bash" code={`# Add to ~/.zshrc
 alias ls="eza --icons --group-directories-first"
 alias ll="eza -la --icons --group-directories-first --git"
 alias cat="bat --theme=Dracula"
-alias find="fd"`}</CodeBlock>
+alias find="fd"`} />
 
           <TipBox>
             <p>
@@ -222,7 +223,7 @@ alias find="fd"`}</CodeBlock>
           </TipBox>
 
           <h3>Configure Git globally</h3>
-          <CodeBlock lang="bash">{`git config --global user.name "Your Name"
+          <CodeBlock lang="bash" code={`git config --global user.name "Your Name"
 git config --global user.email "you@example.com"
 git config --global init.defaultBranch main
 git config --global pull.rebase true
@@ -233,7 +234,7 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 
 # Copy public key to clipboard — paste into GitHub → Settings → SSH Keys
-pbcopy < ~/.ssh/id_ed25519.pub`}</CodeBlock>
+pbcopy < ~/.ssh/id_ed25519.pub`} />
 
           <h3>Toolchain checklist</h3>
           <Checklist items={[
@@ -257,30 +258,30 @@ pbcopy < ~/.ssh/id_ed25519.pub`}</CodeBlock>
           </p>
 
           <h3>Install Claude Code</h3>
-          <CodeBlock lang="bash">{`# Install globally
+          <CodeBlock lang="bash" code={`# Install globally
 npm install -g @anthropic-ai/claude-code
 
 # Verify installation
 claude --version
 
 # Authenticate (opens browser)
-claude auth`}</CodeBlock>
+claude auth`} />
 
           <h3>Useful aliases</h3>
           <p>Add these to your <code>~/.zshrc</code> for faster access:</p>
-          <CodeBlock lang="bash">{`# Add to ~/.zshrc
+          <CodeBlock lang="bash" code={`# Add to ~/.zshrc
 alias cc="claude"
 alias ccr="claude 'review this code for bugs and improvements'"
 alias ccfix="claude 'fix the failing tests'"
 alias cctest="claude 'write tests for the recent changes'"
-alias ccdoc="claude 'add documentation to the undocumented functions'"`}</CodeBlock>
+alias ccdoc="claude 'add documentation to the undocumented functions'"`} />
 
           <h3>CLAUDE.md — project memory</h3>
           <p>
             Create a <code>CLAUDE.md</code> file in your project root. Claude Code reads this
             automatically to understand your project's conventions, architecture, and commands.
           </p>
-          <CodeBlock lang="markdown">{`# CLAUDE.md
+          <CodeBlock lang="markdown" code={`# CLAUDE.md
 
 ## Project
 Brief description of your project.
@@ -295,7 +296,7 @@ npm test          # Run tests
 ## Architecture
 - Framework and key tech decisions
 - Important file paths
-- Conventions to follow`}</CodeBlock>
+- Conventions to follow`} />
 
           <h3>Warp + Claude Code power moves</h3>
           <TipBox>
@@ -403,7 +404,7 @@ npm test          # Run tests
             <code>fzf</code> is a general-purpose fuzzy finder. It plugs into file search, command history,
             Git branches, and anything else you can pipe into it.
           </p>
-          <CodeBlock lang="bash">{`brew install fzf
+          <CodeBlock lang="bash" code={`brew install fzf
 
 # Add to ~/.zshrc
 source <(fzf --zsh)
@@ -411,22 +412,22 @@ source <(fzf --zsh)
 # Key bindings (add to ~/.zshrc)
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"`}</CodeBlock>
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"`} />
 
           <h3>Project switcher function</h3>
           <p>Jump to any project directory with fuzzy matching:</p>
-          <CodeBlock lang="bash">{`# Add to ~/.zshrc
+          <CodeBlock lang="bash" code={`# Add to ~/.zshrc
 p() {
   local dir
   dir=$(find ~/Development -maxdepth 2 -type d | fzf --preview 'eza -la --icons {}')
   if [[ -n "$dir" ]]; then
     cd "$dir"
   fi
-}`}</CodeBlock>
+}`} />
 
           <h3>Session startup script</h3>
           <p>Create a script that boots your full dev environment in one command:</p>
-          <CodeBlock lang="bash">{`#!/bin/bash
+          <CodeBlock lang="bash" code={`#!/bin/bash
 # ~/bin/dev-start.sh — launch your dev environment
 
 PROJECT=\${1:-$(basename $PWD)}
@@ -438,18 +439,18 @@ warp-cli split-pane --direction right
 warp-cli send-text --pane 1 "npm run dev"
 warp-cli send-text --pane 2 "npm run test -- --watch"
 
-echo "Dev environment ready."`}</CodeBlock>
+echo "Dev environment ready."`} />
 
           <h3>Environment & secrets management</h3>
           <p>Use <code>direnv</code> to auto-load environment variables per project — no more manual <code>source .env</code>:</p>
-          <CodeBlock lang="bash">{`brew install direnv
+          <CodeBlock lang="bash" code={`brew install direnv
 
 # Add to ~/.zshrc
 eval "$(direnv hook zsh)"
 
 # In your project directory
 echo 'export DATABASE_URL="postgres://..."' > .envrc
-direnv allow`}</CodeBlock>
+direnv allow`} />
 
           <TipBox variant="warning">
             <p>
@@ -465,6 +466,179 @@ direnv allow`}</CodeBlock>
             "dev-start.sh script created and made executable (chmod +x)",
             "direnv installed and hooked into Zsh",
             "Back up your ~/.zshrc — you've earned it"
+          ]} />
+        </Section>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!-- Section 08 — TypeScript Developer Workflows -->
+      <!-- ═══════════════════════════════════════════ -->
+      <div class="section-wrapper" style="animation-delay: 350ms">
+        <Section num="08" title="TypeScript Developer Workflows" badge="advanced" id="ts-workflows">
+          <p>
+            Combine Warp's unique features with TypeScript, GitHub CLI, and Claude Code
+            to build a developer workflow that's faster than anything you've used before.
+          </p>
+
+          <h3>Scaffold a TypeScript project</h3>
+          <p>Bootstrap a new project and push it to GitHub in under a minute:</p>
+          <CodeBlock lang="bash" code={`# Create a new project (pick your framework)
+npm create astro@latest my-app -- --template minimal --typescript strict
+cd my-app
+
+# Initialize Git and push to GitHub
+git init && git add -A && git commit -m "init: scaffold project"
+gh repo create my-app --public --source=. --push`} />
+
+          <p>Set up strict TypeScript from the start:</p>
+          <CodeBlock lang="json" code={`{
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true
+  }
+}`} />
+
+          <TipBox>
+            <p>
+              <strong>Warp Blocks:</strong> Each command's output is a separate block — copy the
+              scaffolding summary directly from the block without selecting text.
+            </p>
+          </TipBox>
+
+          <h3>Feature branch workflow</h3>
+          <p>A clean branch workflow using GitHub CLI — never leave the terminal:</p>
+          <CodeBlock lang="bash" code={`# Create and switch to a feature branch
+git checkout -b feat/add-auth-middleware
+
+# ... make your changes ...
+
+# Stage, commit, and open a PR in one flow
+git add -A
+git commit -m "feat: add JWT auth middleware"
+gh pr create --fill
+
+# Check CI status
+gh pr checks
+
+# Once CI passes, merge
+gh pr merge --squash --delete-branch`} />
+
+          <TipBox>
+            <p>
+              <strong>Warp Blocks:</strong> Each git command's output is independently
+              copyable and shareable — send a specific block to your reviewer instead of a screenshot.
+            </p>
+          </TipBox>
+
+          <h3>Claude Code development loop</h3>
+          <p>
+            The real power: use Claude Code as a pair programmer inside Warp. This is the
+            workflow loop that replaces context-switching to a browser-based AI:
+          </p>
+          <CodeBlock lang="bash" code={`# Step 1 — Ask Claude to implement a feature
+claude 'add rate limiting middleware to the Express API routes'
+
+# Step 2 — Review what Claude changed
+git diff
+
+# Step 3 — Ask Claude to write tests
+claude 'write tests for the rate limiting middleware using vitest'
+
+# Step 4 — Run the tests
+npm test
+
+# Step 5 — If tests fail, let Claude fix them
+claude 'fix the failing tests'
+
+# Step 6 — Commit when green
+git add -A && git commit -m "feat: add rate limiting with tests"`} />
+
+          <TipBox>
+            <p>
+              <strong>Collapse blocks:</strong> Click any completed Claude Code block header to
+              collapse it. This keeps your terminal clean while you iterate through the loop.
+            </p>
+          </TipBox>
+
+          <h3>Multi-pane TypeScript workflow</h3>
+          <p>
+            Use Warp's split panes to run your full development environment simultaneously.
+            This is where Warp's GPU-accelerated rendering really shines — no lag across panes.
+          </p>
+          <CodeBlock lang="bash" code={`# Pane 1 (main) — your working terminal
+# Already open
+
+# Pane 2 — split right for TypeScript watch mode
+# Press Cmd+D, then run:
+npx tsc --watch --noEmit
+
+# Pane 3 — split down from Pane 2 for test watch
+# Press Cmd+Shift+D, then run:
+npx vitest --watch
+
+# Pane 4 — split down from Pane 1 for dev server
+# Press Cmd+Shift+D, then run:
+npm run dev`} />
+
+          <TipBox>
+            <p>
+              <strong>Warp Drive:</strong> Save this pane layout as a Warp Drive workflow
+              (<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>W</kbd>) to launch your entire dev
+              environment in one click.
+            </p>
+          </TipBox>
+
+          <h3>Debug TypeScript errors with Warp AI</h3>
+          <p>
+            When TypeScript throws a cryptic error, use Warp AI to decode it instantly.
+            No more copy-pasting errors into a search engine.
+          </p>
+          <CodeBlock lang="bash" code={`# Hit Ctrl+Space and type naturally:
+# "what does TS2345 mean and how do I fix it"
+
+# Or ask Claude Code for a deeper fix:
+claude 'the TypeScript compiler is throwing TS2345 on src/middleware.ts:42 — fix it'
+
+# Share the error block with your team:
+# Click the block → Cmd+Shift+S → share link generated`} />
+
+          <TipBox>
+            <p>
+              <strong>Error hints:</strong> Click the lightbulb icon on any failed command
+              block — Warp AI explains the error and suggests a fix in-line.
+            </p>
+          </TipBox>
+
+          <h3>Ship it: PR → CI → merge</h3>
+          <p>The full shipping flow from feature branch to merged PR:</p>
+          <CodeBlock lang="bash" code={`# Create PR with a structured description
+gh pr create --title "feat: add rate limiting" --body "## Changes
+- Added rate limiting middleware (100 req/min per IP)
+- Added Redis-backed token bucket
+- Added tests for rate limit scenarios
+
+## Testing
+- npm test — all passing
+- Manual test: curl -v localhost:3000/api/health"
+
+# Watch CI in a split pane (Cmd+D)
+gh run watch
+
+# Once CI is green, merge and clean up
+gh pr merge --squash --delete-branch
+git checkout main && git pull`} />
+
+          <h3>Workflows checklist</h3>
+          <Checklist items={[
+            "Scaffold a TS project with strict: true and push to GitHub",
+            "Create a feature branch and open a PR with gh pr create",
+            "Use Claude Code to implement a feature and write tests",
+            "Run tsc --watch and vitest --watch in split panes (Cmd+D)",
+            "Use Warp AI (Ctrl+Space) to decode a TypeScript error",
+            "Ship a PR: gh pr create → gh run watch → gh pr merge"
           ]} />
         </Section>
       </div>
@@ -730,9 +904,9 @@ direnv allow`}</CodeBlock>
   // ── State ──────────────────────────────────────
   const sectionIds = [
     "installation", "appearance", "shell", "toolchain",
-    "claude", "shortcuts", "workflows"
+    "claude", "shortcuts", "workflows", "ts-workflows"
   ];
-  const done = new Array(7).fill(false);
+  const done = new Array(8).fill(false);
 
   // ── DOM references ─────────────────────────────
   const progressFill = document.getElementById("progress-fill");
@@ -791,9 +965,9 @@ direnv allow`}</CodeBlock>
   // ── 6.4 Progress Bar ──────────────────────────
   function updateProgress() {
     const count = done.filter(Boolean).length;
-    const pct = Math.round((count / 7) * 100);
+    const pct = Math.round((count / 8) * 100);
     if (progressFill) progressFill.style.width = `${pct}%`;
-    if (progressLabel) progressLabel.textContent = `${count} / 7 complete`;
+    if (progressLabel) progressLabel.textContent = `${count} / 8 complete`;
   }
 
   // ── 6.5 Nav Sidebar ────────────────────────────
